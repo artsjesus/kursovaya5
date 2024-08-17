@@ -1,16 +1,14 @@
 import time
+import psycopg2
 from src.api import HH
 from src.dbmanager import DBManager
-from src.utils import connect
 from src.utils import create_tables
 from src.utils import loads_into_table
 from src.utils import drop_table
 
 
 def main():
-    '''пользовательский интерфейс приложения'''
-
-    conn = connect('database.ini')  # устанавливаем соединение с конфиг файлом
+    conn = psycopg2.connect(host='localhost', database='', user='postgres', password='')  # устанавливаем соединение с конфиг файлом
     drop_table(conn, 'vacancies')  # удаляем таблицу vacancies
     drop_table(conn, 'employers')  # удаляем таблицу employers
 
@@ -34,11 +32,11 @@ def main():
     while True:
 
         print('''1 - вывести на экран список всех компаний и количество вакансий у каждой компании
-    2 - вывести на экран список всех вакансий с указанием названия компании, названия вакансии и зарплаты и ссылки на вакансию
-    3 - вывести на экран среднюю зарплату по вакансиям. (по умолчанию RUR)
-    4 - вывести на экран список всех вакансий, у которых зарплата выше средней по всем вакансиям. (по умолчанию "RUR")
-    5 - вывести на экран список всех вакансий, в названии которых содержится ключевое слово.
-    0 - завершение программы
+2 - вывести на экран список всех вакансий с указанием названия компании, названия вакансии и зарплаты и ссылки на вакансию
+3 - вывести на экран среднюю зарплату по вакансиям. (по умолчанию RUR)
+4 - вывести на экран список всех вакансий, у которых зарплата выше средней по всем вакансиям. (по умолчанию "RUR")
+5 - вывести на экран список всех вакансий, в названии которых содержится ключевое слово.
+0 - завершение программы
     ''')
 
         choice_number = ['1', '2', '3', '4', '5', '0']
@@ -67,6 +65,7 @@ def main():
         elif user_choice and user_choice == '0' and user_choice in choice_number:
             db_man_inst.conn_close()
             break
+
 
 if __name__ == '__main__':
     main()

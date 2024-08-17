@@ -2,10 +2,12 @@ from abc import ABC, abstractmethod
 import requests
 from src.vacancy import Vacancy
 
+
 class Parser(ABC):
     @abstractmethod
     def load_vacancies(self):
         pass
+
 
 employers_ids = {
     10259650: 'Softintermob LLC',
@@ -44,7 +46,8 @@ class HH(Parser):
             self.vacancies.extend(vacancy)
             self.params['page'] += 1
 
-    def parse_vacancies(self, vacancies: list[dict]) -> list[dict]:
+    @staticmethod
+    def parse_vacancies(vacancies: list[dict]) -> list[dict]:
         """ Метод фильтрует с API по заданным ключам и возвращает список экз. класса """
 
         items = []
