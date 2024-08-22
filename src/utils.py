@@ -1,3 +1,6 @@
+import psycopg2
+
+
 def create_tables(conn):
     """Создание базы данных и таблиц для сохранения данных о компаниях и вакансиях."""
 
@@ -24,7 +27,7 @@ def create_tables(conn):
 
 
 def loads_into_table(conn, vacansies: list) -> None:
-    '''заполняет таблицу данными о вакансиях'''
+    """заполняет таблицу данными о вакансиях"""
 
     with conn:
         with conn.cursor() as cur:
@@ -41,9 +44,22 @@ def loads_into_table(conn, vacansies: list) -> None:
 
 
 def drop_table(conn, table_name) -> None:
-    '''удаляет таблицу. по умолчанию соединение закроется. если передать в con_status 1 то останется открытым'''
-
+    """удаляет таблицу. по умолчанию соединение закроется. если передать в con_status 1 то останется открытым"""
     with conn:
         with conn.cursor() as cur:
             cur.execute(f"DROP TABLE IF EXISTS {table_name}")
             print(f'из базы данных удалена таблица {table_name}')
+
+
+def creat_db():
+    """Создание базы данных"""
+    conn = psycopg2.connect(host='localhost', user='postgres', password='')
+    cursor = conn.cursor()
+    conn.autocommit = True
+    try:
+        sql = "CREATE DATABASE HH"
+        cursor.execute(sql)
+    except psycopg2.errors.DuplicateDatabase:
+        pass
+    cursor.close()
+    conn.close()
