@@ -27,7 +27,7 @@ def create_tables(conn):
 
 
 def loads_into_table(conn, vacansies: list) -> None:
-    '''заполняет таблицу данными о вакансиях'''
+    """заполняет таблицу данными о вакансиях"""
 
     with conn:
         with conn.cursor() as cur:
@@ -44,8 +44,7 @@ def loads_into_table(conn, vacansies: list) -> None:
 
 
 def drop_table(conn, table_name) -> None:
-    '''удаляет таблицу. по умолчанию соединение закроется. если передать в con_status 1 то останется открытым'''
-
+    """удаляет таблицу. по умолчанию соединение закроется. если передать в con_status 1 то останется открытым"""
     with conn:
         with conn.cursor() as cur:
             cur.execute(f"DROP TABLE IF EXISTS {table_name}")
@@ -64,4 +63,3 @@ def creat_db():
         pass
     cursor.close()
     conn.close()
-
